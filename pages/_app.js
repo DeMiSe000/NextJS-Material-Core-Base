@@ -24,13 +24,14 @@ import Router from "next/router";
 import PageChange from "components/PageChange/PageChange.js";
 
 import "assets/scss/nextjs-material-kit.scss?v=1.1.0";
+import {ProvideAuth} from "../util/auth";
 
 Router.events.on("routeChangeStart", url => {
   console.log(`Loading: ${url}`);
   document.body.classList.add("body-page-transition");
   ReactDOM.render(
-    <PageChange path={url} />,
-    document.getElementById("page-transition")
+      <PageChange path={url} />,
+      document.getElementById("page-transition")
   );
 });
 Router.events.on("routeChangeComplete", () => {
@@ -76,12 +77,14 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <React.Fragment>
-        <Head>
-          <title>NextJS Material Kit by Creative Tim</title>
-        </Head>
-        <Component {...pageProps} />
-      </React.Fragment>
+        <ProvideAuth>
+          <React.Fragment>
+            <Head>
+              <title>NextJS Material Kit by Creative Tim</title>
+            </Head>
+            <Component {...pageProps} />
+          </React.Fragment>
+        </ProvideAuth>
     );
   }
 }
